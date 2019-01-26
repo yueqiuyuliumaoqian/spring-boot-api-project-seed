@@ -1,10 +1,11 @@
 package com.company.project.web;
+
+import com.company.project.core.MyPageInfo;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
 import com.company.project.model.TUser;
 import com.company.project.service.TUserService;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,11 +47,11 @@ public class TUserController {
         return ResultGenerator.genSuccessResult(tUser);
     }
 
-    @PostMapping("/list")
+    @RequestMapping("/list")
     public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
+        PageHelper.startPage(page, size);//分页工具
         List<TUser> list = tUserService.findAll();
-        PageInfo pageInfo = new PageInfo(list);
+        MyPageInfo pageInfo = new MyPageInfo(list);//分页类
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 }
